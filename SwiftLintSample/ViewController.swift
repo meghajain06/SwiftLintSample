@@ -13,7 +13,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-    func calculateSum(numberOne: Int, numberTwo: Int) -> Int{
+    func calculateSum(numberOne: Int, numberTwo: Int) -> Int {
         return numberOne+numberTwo
     }
 }
