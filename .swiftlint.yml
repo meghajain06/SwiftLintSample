@@ -1,0 +1,11 @@
+# SwiftLint rule lookup:
+# https://realm.github.io/SwiftLint/rule-directory.html
+
+excluded:
+- Pods
+
+### commented out indicates active
+disabled_rules:
+line_length: 300
+
+
