@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Below lines would be executed before the commit message is written
+
+GIT_ROOT_PATH=$(git rev-parse --show-toplevel)
+SWIFTLINT_PATH=$GIT_ROOT_PATH/Pods/SwiftLint/swiftlint
+COUNT=0
+
+cd $GIT_ROOT_PATH
+
+# check modified files (staged)
+for file_path in $(git diff --name-only --diff-filter=M --cached | grep ".swift$"); do
+    export SCRIPT_INPUT_FILE_$COUNT=$file_path
+    COUNT=$((COUNT + 1))
+done
+
+export SCRIPT_INPUT_FILE_COUNT=$COUNT
+
+if [[ "$COUNT" -gt 0 ]]; then
+    echo ""
+    echo "Code quality: checking $COUNT modified file(s)..."
+    echo ""
+    $SWIFTLINT_PATH lint --strict --quiet --use-script-input-files
+    RESULT=$?
+fi
+
+###
+### PROCESSING
+###
+
+if [[ $RESULT -gt 0 ]]; then
+    echo ""
+    echo "Code quality violation(s) were found in modified files. Please correct the file(s)."
+    exit 1
+fi
+
